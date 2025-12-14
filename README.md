@@ -1,4 +1,4 @@
-# Battery Arbitrage Optimization for the IQM Hackathon 2025
+# A hybrid quantum+classical MILP solver
 
 This repository holds the code developed by the **queen_of_fog** team for the
 [IQM Hackathon 2025 Endesa Challenge](https://github.com/iqm-finland/quantum-hack-2025-madrid/tree/main/endesa). It tackles a
