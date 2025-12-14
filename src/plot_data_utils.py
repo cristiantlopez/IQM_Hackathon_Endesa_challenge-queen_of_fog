@@ -446,3 +446,29 @@ class PlotDataUtils:
         ax2.legend(loc="upper right")
         plt.tight_layout()
         return ax1, ax2
+    
+    def wind_revenue(self, df: pd.DataFrame) -> Tuple[pd.Series, float, float, float]:
+        """Compute total wind revenue per scenario and print summary statistics.
+
+        Parameters
+        ----------
+        df : pandas.DataFrame
+            DataFrame containing scenario columns and ``price``.
+
+        Returns
+        -------
+        tuple
+            Tuple of ``(wind_rev_by_s, wind_rev_exp, wind_rev_min, wind_rev_max)`` where
+            the first element is total revenue per scenario and the rest are
+            summary statistics across scenarios.
+        """
+        scenario_cols = self.scenario_cols or [c for c in df.columns if c.startswith("scenario_")]
+        if not scenario_cols:
+            raise ValueError("No scenario columns identified; call load_data() first.")
+        wind_rev_by_s = (df[scenario_cols].mul(df["price"], axis=0)).sum(axis=0)
+        wind_rev_exp = wind_rev_by_s.mean()
+        wind_rev_var = wind_rev_by_s.std()
+        wind_rev_min = wind_rev_by_s.min()
+        wind_rev_max = wind_rev_by_s.max()
+
+        return wind_rev_by_s, wind_rev_exp, wind_rev_min, wind_rev_max, wind_rev_var
